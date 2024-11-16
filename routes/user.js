@@ -7,7 +7,6 @@ const User = require("../models/user");
 //Regoster User
 router.post("/register", async (req, res) => {
   const user = req.body;
-
   // Input validation
   if (!user.name || !user.email || !user.password || !user.role) {
     return res.status(400).send({ message: "All fields are required" });
