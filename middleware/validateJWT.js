@@ -7,13 +7,13 @@ exports.validateJWT = (req,res,next) => {
     const token = req.headers.authorization;
     if(!token){
         console.log("Token in required !")
-        next();
+        // next();
     }
     const decodedToken = jwt.verify(token, process.env.JWT_SECRET);
     if(!decodedToken){
         return res.status(401).send({message: "Unauthorized"});
     }
     req.user = decodedToken;
-    // console.log(req.user)
+    console.log(decodedToken)
     next();
 }
