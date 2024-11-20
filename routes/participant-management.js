@@ -3,6 +3,17 @@ const { validateJWT } = require("../middleware/validateJWT");
 const User = require("../models/user");
 const Event = require("../models/events");
 const router = express.Router();
+require('dotenv').config();
+const nodemailer = require('nodemailer');
+
+// Configure nodemailer transporter
+const transporter = nodemailer.createTransport({
+  service: 'gmail', 
+  auth: {
+    user: process.env.EMAIL, 
+    pass: process.env.PASS, 
+  },
+});
 
 //register event
 router.post("/register/:id", validateJWT, async (req, res) => {
@@ -22,9 +33,19 @@ router.post("/register/:id", validateJWT, async (req, res) => {
       // Add the event to the user's registered events if not already registered
       const user = await User.findById(req.user.id);
       if (!user.registeredEvents.includes(eventId)) {
-        user.registeredEvents.push({event_id:eventId,name:event.name});
+        user.registeredEvents.push({ event_id: eventId, name: event.name });
         await user.save();
       }
+
+      // Send email notification
+      const mailOptions = {
+        from: "your-email@gmail.com",
+        to: user.email,
+        subject: "Event Registration Successful",
+        text: `Hi ${user.name},\n\nYou have successfully registered for the event "${event.name}" scheduled on ${event.date} at ${event.time}.\n\nThank you for your interest.\n\nBest Regards,\nEvent Management Team`,
+      };
+
+      await transporter.sendMail(mailOptions);
 
       res.send({ message: "Successfully registered for the event", event });
     } catch (error) {

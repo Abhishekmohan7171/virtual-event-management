@@ -52,3 +52,9 @@ module.exports = User;
 //     "email":"g@a.com",
 //     "password":"greeshma123"
 // }
+// {
+//     "name":"Abhishek M",
+//     "email":"abhishek.mohan@surfboard.se",
+//     "password":"Abhi123",
+//     "role":"user"
+// }
