@@ -36,7 +36,7 @@ router.get("/", async (req,res) => {
 router.delete("/:id", validateJWT , async (req,res) => {
     if(req.user.role === "admin"){
         const id = req.params.id;
-        await Event.findByIdAndDelete(id);
+        await Event.findById(id);
         res.send({message: "Event deleted successfully"});
     }else{
         res.status(401).send({message: "Unauthorized"});

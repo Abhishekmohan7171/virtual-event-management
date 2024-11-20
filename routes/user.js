@@ -3,6 +3,7 @@ const router = express.Router();
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const User = require("../models/user");
+const { validateJWT } = require("../middleware/validateJWT");
 
 //Regoster User
 router.post("/register", async (req, res) => {
@@ -45,6 +46,20 @@ router.post("/login", async (req, res) => {
   res.send({ message: "Logged in successfully!", token });
 });
 
+
+//show register events for a user
+router.get("/events", validateJWT, async(req,res) => {
+  if(req.user.role === "user"){
+    const user = await User.findById(req.user.id);
+    if(user.registeredEvents.length === 0){
+      return res.send({message: "No Events registered !"});
+    }else{
+      return res.send({events: user.registeredEvents , message: "Registered events fetched successfully !"})
+    }
+  }else{
+    return res.status(401).send({message: "Unauthorized endpoint!"})
+  }
+})
 
 
 module.exports = router;

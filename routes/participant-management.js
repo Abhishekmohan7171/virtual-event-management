@@ -22,7 +22,7 @@ router.post("/register/:id", validateJWT, async (req, res) => {
       // Add the event to the user's registered events if not already registered
       const user = await User.findById(req.user.id);
       if (!user.registeredEvents.includes(eventId)) {
-        user.registeredEvents.push(eventId);
+        user.registeredEvents.push({event_id:eventId,name:event.name});
         await user.save();
       }
 
