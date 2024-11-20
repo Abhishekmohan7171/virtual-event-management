@@ -4,7 +4,8 @@ PORT = process.env.PORT;
 const mongoose = require('mongoose');
 const {logger} = require('./middleware/logger');
 const user = require('./routes/user');
-const event = require('./routes/events');
+const event = require('./routes/event-management');
+const participant = require('./routes/participant-management');
 const { errorHandler } = require('./middleware/errorHandler');
 const app = express();
 
@@ -20,6 +21,7 @@ app.use(errorHandler)
 app.use(express.json());
 app.use('/api/v1/user',user);
 app.use('/api/v1/events',event);
+app.use('/api/v1/user/event/',participant);
 
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);

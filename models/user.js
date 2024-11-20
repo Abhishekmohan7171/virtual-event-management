@@ -15,8 +15,16 @@ const userSchema = new mongoose.Schema({
     },
     role:{
         type: String,
-        required:true
-    }
+        required:true,
+        enum: ['admin', 'user'], // Restrict roles to either 'admin' or 'user'
+        default: 'user',
+    },
+    registeredEvents: [
+        {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: 'Event', // This makes it a reference to an Event document
+        },
+    ],
 })
 
 const User = mongoose.model('User',userSchema);
