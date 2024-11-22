@@ -2,11 +2,11 @@ const express = require('express');
 require('dotenv').config();
 PORT = process.env.PORT;
 const mongoose = require('mongoose');
-const {logger} = require('./middleware/logger');
-const user = require('./routes/user');
-const event = require('./routes/event-management');
-const participant = require('./routes/participant-management');
-const { errorHandler } = require('./middleware/errorHandler');
+const {logger} = require('./src/middleware/logger');
+const user = require('./src/routes/user');
+const event = require('./src/routes/event-management');
+const participant = require('./src/routes/participant-management');
+const { errorHandler } = require('./src/middleware/errorHandler');
 const app = express();
 
 //connect to mongo db
